@@ -4,7 +4,9 @@ fn vec_loop(input: &[i32]) -> Vec<i32> {
     for element in input {
         // TODO: Multiply each element in the `input` slice by 2 and push it to
         // the `output` vector.
-        *element *= 2;
+        output.push(*element * 2);
+        // 注意 element 是 &i32 类型 所以要解引用
+        
 
     }
 
