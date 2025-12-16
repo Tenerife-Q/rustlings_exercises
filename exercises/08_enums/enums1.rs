@@ -10,6 +10,8 @@ enum Message {
 
 fn main() {
     // {:?} 作用是用于调试输出枚举的变体和数据
+    // 打印不同类型的 Message 枚举实例
+    // 后面所有都会打印出对应的变体和数据
     println!("{:?}", Message::Resize{width: 10, height: 20});
     println!("{:?}", Message::Move{x: 5, y: 15});
     println!("{:?}", Message::Echo(String::from("Hello, Rust!")));

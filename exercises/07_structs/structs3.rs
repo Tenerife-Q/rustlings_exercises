@@ -44,7 +44,7 @@ impl Package {
 
 fn main() {
     // You can optionally experiment here.
-    
+    // 创建Package实例一
     let package = Package::new(
         String::from("China"),
         String::from("USA"),
@@ -54,6 +54,22 @@ fn main() {
     println!("国际包裹？{}", package.is_international());
     println!("2分/克的运费：{}分", package.get_fees(2));
 
+
+    // 创建Package实例二
+    let package2 = Package::new(
+        String::from("Germany"),
+        String::from("Germany"),
+        500
+    );
+    println!("国际包裹？{}", package2.is_international());
+    println!("3分/克的运费：{}分", package2.get_fees(3));
+
+    // 创建Package实例三（会触发panic）
+    // let package3 = Package::new(
+    //     String::from("France"),
+    //     String::from("Italy"),
+    //     5
+    // );
 }
 
 #[cfg(test)]

@@ -38,3 +38,19 @@ fn main() {
     string("mY sHiFt KeY iS sTiCkY".to_lowercase());// to_lowercase() 方法返回一个所有字母都转换为小写的 String 类型
     
 }
+/*
+总结：
+1. &str 是字符串切片类型，表示对字符串的一部分或全部的引用，通常用于函数参数传递
+2. String 是堆分配的可变字符串类型，拥有字符串数据的所有权，可以进行修改
+3. 根据具体情况选择使用 string_slice 函数还是 string 函数
+
+常用api参考：
+- to_string()：将 &str 转换为 String 类型
+- String::from()：创建一个新的 String 类型
+- to_owned()：将 &str 转换为 String 类型，等价于 to_string
+- into()：将 &str 转换为 String 类型，等价于 to_string()
+- format!：格式化字符串宏，返回 String 类型
+- trim()：去掉字符串前后空格，返回 &str 类型
+- replace()：替换字符串中的子串，返回新的 String 类型
+- to_lowercase()：将字符串转换为小写，返回新的 String 类型
+*/
