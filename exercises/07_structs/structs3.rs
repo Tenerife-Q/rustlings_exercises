@@ -64,12 +64,15 @@ fn main() {
     println!("国际包裹？{}", package2.is_international());
     println!("3分/克的运费：{}分", package2.get_fees(3));
 
-    // 创建Package实例三（会触发panic）
-    // let package3 = Package::new(
-    //     String::from("France"),
-    //     String::from("Italy"),
-    //     5
-    // );
+    //创建Package实例三（会触发panic）
+    /* 
+    let package3 = Package::new(
+        String::from("France"),
+        String::from("Italy"),
+        5
+    );
+    */
+    //这里重量不达标 weight_in_grams < 10 会触发panic 所以直接注释掉
 }
 
 #[cfg(test)]
