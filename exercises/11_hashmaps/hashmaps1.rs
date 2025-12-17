@@ -4,6 +4,7 @@
 // types of fruits (e.g. apple, banana, mango) in the basket and the total count
 // of all the fruits should be at least 5.
 
+// HashMap 性质 ：键值对存储、无序、键唯一
 use std::collections::HashMap;
 
 fn fruit_basket() -> HashMap<String, u32> {
@@ -31,12 +32,14 @@ fn main() {
 mod tests {
     use super::*;
 
+    // 要求至少三种不同的水果
     #[test]
     fn at_least_three_types_of_fruits() {
         let basket = fruit_basket();
         assert!(basket.len() >= 3);
     }
 
+    // 要求水果总数至少五个
     #[test]
     fn at_least_five_fruits() {
         let basket = fruit_basket();

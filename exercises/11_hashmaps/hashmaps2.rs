@@ -33,12 +33,23 @@ fn fruit_basket(basket: &mut HashMap<Fruit, u32>) {
         // basket. Note that you are not allowed to put any type of fruit that's
         // already present!
         basket.entry(fruit).or_insert(3);
+        // entry 方法用于获取与指定键相关联的条目（Entry）。
+        // or_insert 方法会检查键是否存在：
+        // 如果存在，则返回对现有值的可变引用；
+        // 如果不存在，则插入提供的值并返回对新插入值的可变引用。
         
     }
 }
 
 fn main() {
     // You can optionally experiment here.
+    // 举例测试
+    let mut basket = HashMap::new();
+    basket.insert(Fruit::Apple, 4);
+    basket.insert(Fruit::Mango, 2);
+    basket.insert(Fruit::Lychee, 5);
+    fruit_basket(&mut basket);
+    println!("{:?}", basket);
 }
 
 #[cfg(test)]
@@ -46,6 +57,7 @@ mod tests {
     use super::*;
 
     // Don't modify this function!
+    // 已经有的水果
     fn get_fruit_basket() -> HashMap<Fruit, u32> {
         let content = [(Fruit::Apple, 4), (Fruit::Mango, 2), (Fruit::Lychee, 5)];
         HashMap::from_iter(content)
@@ -60,18 +72,20 @@ mod tests {
         assert_eq!(*basket.get(&Fruit::Lychee).unwrap(), 5);
     }
 
+    // 要求至少五种不同的水果
     #[test]
     fn at_least_five_types_of_fruits() {
         let mut basket = get_fruit_basket();
-        fruit_basket(&mut basket);
+        fruit_basket(&mut basket);// 调用函数，确保至少五种不同的水果
         let count_fruit_kinds = basket.len();
         assert!(count_fruit_kinds >= 5);
     }
 
+    // 要求水果总数超过11个
     #[test]
     fn greater_than_eleven_fruits() {
         let mut basket = get_fruit_basket();
-        fruit_basket(&mut basket);
+        fruit_basket(&mut basket);// 调用函数，确保水果总数超过11个
         let count = basket.values().sum::<u32>();
         assert!(count > 11);
     }
@@ -87,7 +101,7 @@ mod tests {
         ];
 
         let mut basket = get_fruit_basket();
-        fruit_basket(&mut basket);
+        fruit_basket(&mut basket);// 调用函数，确保所有水果都在篮子里
 
         for fruit_kind in fruit_kinds {
             let Some(amount) = basket.get(&fruit_kind) else {

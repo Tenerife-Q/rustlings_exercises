@@ -20,20 +20,38 @@ fn build_scores_table(results: &str) -> HashMap<&str, TeamScores> {
     let mut scores = HashMap::<&str, TeamScores>::new();
 
     for line in results.lines() {
-        let mut split_iterator = line.split(',');
+        let mut split_iterator = line.split(',');// 按逗号分割字符串
         // NOTE: We use `unwrap` because we didn't deal with error handling yet.
-        let team_1_name = split_iterator.next().unwrap();
-        let team_2_name = split_iterator.next().unwrap();
-        let team_1_score: u8 = split_iterator.next().unwrap().parse().unwrap();
-        let team_2_score: u8 = split_iterator.next().unwrap().parse().unwrap();
+        let team_1_name = split_iterator.next().unwrap(); // 获取第一个队伍名称
+        let team_2_name = split_iterator.next().unwrap(); // next() 获取下一个值 unwrap() 解包
+        let team_1_score: u8 = split_iterator.next().unwrap().parse().unwrap(); // parse() 将字符串转换为数字类型
+        let team_2_score: u8 = split_iterator.next().unwrap().parse().unwrap(); // 最后unwrap解包得到数字值
+
+        // 为什么需要解包两次？
+        // 因为 split_iterator.next() 返回的是 Option<&str> 类型，
+        // 需要先用 unwrap() 解包得到 &str 类型的字符串，
+        // 然后再用 parse() 方法将 &str 转换为 u8 类型，
+        // parse() 方法返回的是 Result<u8, ParseIntError> 类型，
+        // 所以还需要再用 unwrap() 解包得到最终的 u8 数值
+
 
         // TODO: Populate the scores table with the extracted details.
         // Keep in mind that goals scored by team 1 will be the number of goals
         // conceded by team 2. Similarly, goals scored by team 2 will be the
         // number of goals conceded by team 1.
+
+
+
+        // or_default 方法用于获取与指定键相关联的条目（Entry）。
+        // 如果该键不存在，则会插入一个默认值（通过调用 Default trait 的 default 方法生成）并返回对新插入值的可变引用。
         let team1_entry = scores.entry(team_1_name).or_default();
+        // or_default 会返回对 TeamScores 结构体的可变引用 &mut TeamScores
         team1_entry.goals_scored += team_1_score;
         team1_entry.goals_conceded += team_2_score;
+
+        // 处理第二个队伍的数据 业务逻辑解释：
+        // 加上 team_2_score 作为进球数
+        // 加上 team_1_score 作为失球数
         let team2_entry = scores.entry(team_2_name).or_default();
         team2_entry.goals_scored += team_2_score;
         team2_entry.goals_conceded += team_1_score;
@@ -45,6 +63,20 @@ fn build_scores_table(results: &str) -> HashMap<&str, TeamScores> {
 
 fn main() {
     // You can optionally experiment here.
+    // 举例测试
+    const RESULTS: &str = "England,France,4,2
+France,Italy,3,1
+Poland,Spain,2,0
+Germany,England,2,1
+England,Spain,1,0";
+    let scores = build_scores_table(RESULTS);
+    for (team, score) in scores.iter() {
+        println!(
+            "{} scored {} goals and conceded {} goals",
+            team, score.goals_scored, score.goals_conceded
+        );
+    }
+    
 }
 
 #[cfg(test)]
