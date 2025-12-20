@@ -6,6 +6,9 @@ fn main() {
     // TODO: Fix the compiler error by annotating the type of the vector
     // `Vec<T>`. Choose `T` as some integer type that can be created from
     // `u8` and `i8`.
+
+    // 这里将 Vec 的类型注解为 Vec<i16>，因为 i16 可以容纳 u8 和 i8 的值
+    // 并且可以通过 into() 方法进行转换 将 u8 和 i8 转换为 i16 小转大
     
     let mut numbers: Vec<i16> = Vec::new();
 
