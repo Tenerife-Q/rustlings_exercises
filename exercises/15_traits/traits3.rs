@@ -3,6 +3,7 @@ trait Licensed {
     // implementors like the two structs below can share that default behavior
     // without repeating the function.
     // The default license information should be the string "Default license".
+    // 提供一个默认实现 licensing_info 方法
     fn licensing_info(&self) -> String {
         String::from("Default license")
     }
