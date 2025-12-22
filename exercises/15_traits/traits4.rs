@@ -25,6 +25,84 @@ fn compare_license_types<T: Licensed, U: Licensed>(software1: T, software2: U) -
 
 fn main() {
     // You can optionally experiment here.
+
+    // ========== 基础测试 ==========
+    let same = compare_license_types(SomeSoftware, OtherSoftware);
+    println!("Same license: {}", same);  // true
+    
+    // ========== Experiment 实验 ==========
+    
+    // 实验1：不同的实现
+    println!("\n=== 实验1：不同的实现 ===");
+    
+    struct FreeSoftware;
+    struct ProprietarySoftware;
+    
+    impl Licensed for FreeSoftware {
+        fn licensing_info(&self) -> String {
+            "GPL v3".to_string()
+        }
+    }
+    
+    impl Licensed for ProprietarySoftware {
+        fn licensing_info(&self) -> String {
+            "Proprietary".to_string()
+        }
+    }
+    
+    let different = compare_license_types(FreeSoftware, ProprietarySoftware);
+    println!("不同许可证: {}", different);  // false
+    
+    // 实验2：impl Trait 语法
+    println!("\n=== 实验2：impl Trait 语法 ===");
+    
+    fn simple_compare(s1: impl Licensed, s2: impl Licensed) -> bool {
+        s1.licensing_info() == s2.licensing_info()
+    }
+    
+    let result = simple_compare(SomeSoftware, OtherSoftware);
+    println!("简化语法: {}", result);
+    
+    // 实验3：where 子句（更清晰）
+    println!("\n=== 实验3：where 子句 ===");
+    
+    // 这里我们使用 where 子句 来定义泛型约束 也可以直接在函数签名中使用
+    fn detailed_compare<T, U>(s1: T, s2: U) -> String
+    where
+        T: Licensed,
+        U: Licensed,
+    {
+        format!(
+            "Software 1: {}\nSoftware 2: {}\nSame: {}",
+            s1.licensing_info(),
+            s2.licensing_info(),
+            s1.licensing_info() == s2.licensing_info()
+        )
+    }
+    
+    println!("{}", detailed_compare(FreeSoftware, ProprietarySoftware));
+    
+    // 实验4：结合错误处理（第13章）
+    println!("\n=== 实验4：结合错误处理 ===");
+    
+    fn validate_license<T: Licensed>(software: T) -> Result<String, String> {
+        let info = software.licensing_info();
+        if info.contains("Default") {
+            Err(String::from("Must specify a license"))
+        } else {
+            Ok(info)
+        }
+    }
+    
+    match validate_license(FreeSoftware) {
+        Ok(license) => println!(" Valid:  {}", license),
+        Err(e) => println!(" Error: {}", e),
+    }
+    
+    match validate_license(SomeSoftware) {
+        Ok(license) => println!(" Valid: {}", license),
+        Err(e) => println!(" Error: {}", e),
+    }
 }
 
 #[cfg(test)]
