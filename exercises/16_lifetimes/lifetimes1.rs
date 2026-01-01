@@ -4,7 +4,9 @@
 // not own their own data. What if their owner goes out of scope?
 
 // TODO: Fix the compiler error by updating the function signature.
-fn longest(x: &str, y: &str) -> &str {
+// 报错原因: 函数返回的引用可能比输入的引用存在时间更长，编译器无法确定其生命周期。
+// 解决方法: 使用生命周期注解，告诉编译器返回的引用的生命周期与输入引用的生命周期相关联。
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
     if x.len() > y.len() {
         x
     } else {
