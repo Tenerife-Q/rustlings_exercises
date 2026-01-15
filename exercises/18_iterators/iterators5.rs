@@ -28,6 +28,10 @@ fn count_for(map: &HashMap<String, Progress>, value: Progress) -> usize {
 fn count_iterator(map: &HashMap<String, Progress>, value: Progress) -> usize {
     // `map` is a hash map with `String` keys and `Progress` values.
     // map = { "variables1": Complete, "from_str": None, … }
+    
+    // 我们只需要值，所以调用 .values()
+    // 然后过滤出与目标值相等的项，最后统计数量
+    map.values().filter(|&v| *v == value).count()
 }
 
 fn count_collection_for(collection: &[HashMap<String, Progress>], value: Progress) -> usize {
@@ -48,7 +52,15 @@ fn count_collection_iterator(collection: &[HashMap<String, Progress>], value: Pr
     // `collection` is a slice of hash maps.
     // collection = [{ "variables1": Complete, "from_str": None, … },
     //               { "variables2": Complete, … }, … ]
+    
+    // 使用 flat_map 将嵌套的 HashMap 值“拍平”成一个单一的流
+    collection.iter()
+        .flat_map(|map| map.values())
+        .filter(|&v| *v == value)
+        .count()
 }
+
+
 
 fn main() {
     // You can optionally experiment here.

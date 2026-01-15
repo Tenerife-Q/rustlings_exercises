@@ -4,12 +4,16 @@ fn factorial(num: u64) -> u64 {
     // https://en.wikipedia.org/wiki/Factorial
     //
     // Do not use:
-    // - early returns (using the `return` keyword explicitly)
+    // - early returns (using the `return` keyword explicitly) 不显式使用return
     // Try not to use:
     // - imperative style loops (for/while)
-    // - additional variables
+    // - additional variables 不适用额外变量
     // For an extra challenge, don't use:
-    // - recursion
+    // - recursion 不使用递归
+    (1..=num).product()
+    // 1..=num 创建一个从1到num的范围（包含num）
+    // product() 方法计算范围内所有数字的乘积 是迭代器中一个常用方法
+    // 为什么它能处理 0! = 1？ 因为在 Rust 中，空乘积的结果正好定义为 1，返回乘法单位元
 }
 
 fn main() {
