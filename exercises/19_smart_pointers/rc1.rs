@@ -106,3 +106,4 @@ mod tests {
         assert_eq!(Rc::strong_count(&sun), 1);
     }
 }
+
