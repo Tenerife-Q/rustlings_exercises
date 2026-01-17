@@ -33,8 +33,37 @@ impl Default for Person {
 // 4. If the name is empty, return the default of `Person`.
 // 5. Parse the second element from the split operation into a `u8` as the age.
 // 6. If parsing the age fails, return the default of `Person`.
+
 impl From<&str> for Person {
-    fn from(s: &str) -> Self {}
+    fn from(s: &str) -> Self {
+        // 1. 按照逗号分割字符串
+        let parts: Vec<&str> = s.split(',').collect();
+
+        // 2. 如果分割出的元素不是正好 2 个，返回默认值
+        if parts.len() != 2 {
+            return Person::default();
+        }
+
+        // 3. 第一个元素是姓名
+        let name = parts[0];
+
+        // 4. 如果姓名为空，返回默认值
+        if name.is_empty() {
+            return Person::default();
+        }
+
+        // 5. 将第二个元素解析为 u8 类型的年龄
+        let age_result = parts[1].parse::<u8>();
+
+        // 6. 如果解析成功则返回 Person，失败则返回默认值
+        match age_result {
+            Ok(age) => Person {
+                name: name.to_string(),
+                age,
+            },
+            Err(_) => Person::default(),
+        }
+    }
 }
 
 fn main() {
